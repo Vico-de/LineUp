@@ -189,6 +189,9 @@ for player in players:
 #     for player in players:
 #         print(f"{player['name']} a maintenant {player['budget']} euros.")
 
+
+#Soucis ici
+
 #CODE TEMPORAIRE POUR DISPATCH LES ARTISTES DANS LES SCENES DE FACON ALEATOIRE
 
 def assign_artists_to_scenes(players, scenes, artist_cards):
