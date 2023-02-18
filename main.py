@@ -50,6 +50,7 @@ for i in range(len(scene_card_stack)):
     player = players[i % num_players]
     player['inventory']['scenes'].append(scene_card_stack[i])
 
+
 # # Afficher les decks de chaque joueur
 # for player in players:
 #     print(player['name'])
@@ -57,32 +58,33 @@ for i in range(len(scene_card_stack)):
 #     print("Cartes scènes :", player['inventory']['scenes'])
 #     print("\n")
 
+def display_inventory(players, scenes):
+    for player in players:
+        print(f"\nInventaire de {player['name']} :")
+        for scene in player['inventory']['scenes']:
+            if 'artists' in scenes[scene]:
+                print(f"\t{scene} -> {scenes[scene]['artists']}")
+            else:
+                print(f"\t{scene} -> Aucun artiste")
 
-#CODE TEMPORAIRE POUR DISPATCH LES ARTISTES
-def assign_artists_to_scenes(players):
+
+# CODE TEMPORAIRE POUR DISPATCH LES ARTISTES
+def assign_artists_to_scenes(players, scenes):
     for player in players:
         # Pour chaque joueur, on itère sur tous les artistes qu'il possède
         for artist_name in player['inventory']['artists']:
-            # On récupère le dictionnaire de l'artiste
-            artist = artist_card[artist_name]
             # On choisit une scène aléatoire dans la liste des scènes du joueur
             scene_name = random.choice(player['inventory']['scenes'])
             # On récupère le dictionnaire de la scène
-            scene = scene_card[scene_name]
+            scene = scenes[scene_name]
             # On ajoute l'artiste à la liste des artistes de la scène
             if 'artists' not in scene:
-                scene['artists'] = {}
+                scene['artists'] = []
             if artist_name not in scene['artists']:
-                scene['artists'][artist_name] = {
-                    'Label': artist['Label'],
-                    'Prix': artist['Prix'],
-                    'Etoiles': artist['Etoiles'],
-                    'Style': artist['Style'],
-                    'Genre': artist['Genre']
-                }
+                scene['artists'].append(artist_name)
 
     # On affiche l'inventaire mis à jour de chaque joueur
-    display_inventory(players)
+    display_inventory(players, scenes)
 
 assign_artists_to_scenes(player_list, artist_card, scene_card)
 
@@ -221,12 +223,6 @@ assign_artists_to_scenes(player_list, artist_card, scene_card)
 # Soucis ici
 
 # CODE TEMPORAIRE POUR DISPATCH LES ARTISTES DANS LES SCENES DE FACON ALEATOIRE
-
-
-
-
-
-
 
 
 # # Dispatch des artistes dans les scènes
