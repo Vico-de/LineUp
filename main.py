@@ -3,7 +3,7 @@ import random
 import openpyxl
 
 wb = openpyxl.load_workbook('LineTest.xlsx')
-#Dico des artistes
+# Dico des artistes
 sheet = wb['Artistes']
 
 artist_card = {}
@@ -12,25 +12,26 @@ for row in sheet.iter_rows(min_row=2):
     if None in values:
         continue
     artist_name, artist_label, artist_cost, artist_stars, artist_scene, artist_style, artist_gender = values
-    artist_card[artist_name] = {'Label': artist_label, 'Prix': artist_cost, 'Etoiles': artist_stars, 'Scene': artist_scene, 'Style': artist_style, 'Genre': artist_gender}
-
+    artist_card[artist_name] = {'Label': artist_label, 'Prix': artist_cost, 'Etoiles': artist_stars,
+                                'Scene': artist_scene, 'Style': artist_style, 'Genre': artist_gender}
 
 sheet = wb['Scenes']
 
-#Dico des scènes
+# Dico des scènes
 scene_card = {}
 for row in sheet.iter_rows(min_row=2):
     values = [cell.value for cell in row]
     if None in values:
         continue
     scene_name, scene_cost, scene_type, scene_stars = values
-    scene_card[scene_name] = {'Prix': scene_cost, 'Type' :scene_type, 'Etoiles':scene_stars}
+    scene_card[scene_name] = {'Prix': scene_cost, 'Type': scene_type, 'Etoiles': scene_stars}
 
 # Définition du nombre de joueurs, de leur budget et de leur dictionnaire
 num_players = int(input("Entrez le nombre de joueurs : "))
 players = []
 for i in range(num_players):
-    player_dict = {'name': f"Joueur {i+1}", 'budget': 1000000, 'choice': "ok", 'inventory': {'artists': [], 'scenes': []}}
+    player_dict = {'name': f"Joueur {i + 1}", 'budget': 1000000, 'choice': "ok",
+                   'inventory': {'artists': [], 'scenes': []}}
     players.append(player_dict)
 
 ## CODE TEMPORAIRE POUR TEST PLUS RAPIDEMENT
@@ -49,12 +50,42 @@ for i in range(len(scene_card_stack)):
     player = players[i % num_players]
     player['inventory']['scenes'].append(scene_card_stack[i])
 
-# Afficher les decks de chaque joueur
-for player in players:
-    print(player['name'])
-    print("Cartes artistes :", player['inventory']['artists'])
-    print("Cartes scènes :", player['inventory']['scenes'])
-    print("\n")
+# # Afficher les decks de chaque joueur
+# for player in players:
+#     print(player['name'])
+#     print("Cartes artistes :", player['inventory']['artists'])
+#     print("Cartes scènes :", player['inventory']['scenes'])
+#     print("\n")
+
+
+#CODE TEMPORAIRE POUR DISPATCH LES ARTISTES
+def assign_artists_to_scenes(players):
+    for player in players:
+        # Pour chaque joueur, on itère sur tous les artistes qu'il possède
+        for artist_name in player['inventory']['artists']:
+            # On récupère le dictionnaire de l'artiste
+            artist = artist_card[artist_name]
+            # On choisit une scène aléatoire dans la liste des scènes du joueur
+            scene_name = random.choice(player['inventory']['scenes'])
+            # On récupère le dictionnaire de la scène
+            scene = scene_card[scene_name]
+            # On ajoute l'artiste à la liste des artistes de la scène
+            if 'artists' not in scene:
+                scene['artists'] = {}
+            if artist_name not in scene['artists']:
+                scene['artists'][artist_name] = {
+                    'Label': artist['Label'],
+                    'Prix': artist['Prix'],
+                    'Etoiles': artist['Etoiles'],
+                    'Style': artist['Style'],
+                    'Genre': artist['Genre']
+                }
+
+    # On affiche l'inventaire mis à jour de chaque joueur
+    display_inventory(players)
+
+assign_artists_to_scenes(player_list, artist_card, scene_card)
+
 
 
 # ---------------------------------------------------------------------
@@ -90,9 +121,6 @@ for player in players:
 #     # Vérifier si tous les joueurs ont passé leur tour
 #     if all(choice.lower() == "passe" for choice in (p['choice'] for p in players)):
 #         break
-
-
-
 
 
 # --------------------------------------------------------------------
@@ -190,31 +218,15 @@ for player in players:
 #         print(f"{player['name']} a maintenant {player['budget']} euros.")
 
 
-#Soucis ici
+# Soucis ici
 
-#CODE TEMPORAIRE POUR DISPATCH LES ARTISTES DANS LES SCENES DE FACON ALEATOIRE
+# CODE TEMPORAIRE POUR DISPATCH LES ARTISTES DANS LES SCENES DE FACON ALEATOIRE
 
-def assign_artists_to_scenes(players, scenes, artist_cards):
-    for player in players:
-        # Sélectionne une scène aléatoire dans celles que le joueur possède
-        scene = random.choice([scene for scene in player['inventory']['scenes'] if scene['name'] in scenes])
 
-        # Sélectionne un artiste aléatoire parmi les artistes du joueur
-        artist = random.choice(player['inventory']['artists'])
 
-        # Place l'artiste dans la scène sélectionnée
-        scene['artists'].append(artist)
 
-        # Retire l'artiste de la main du joueur
-        player['inventory']['artists'].remove(artist)
-# Utilisation de la fonction
-assign_artists_to_scenes(players, scene_card, artist_card)
 
-# Affichage des artistes associés à chaque scène pour chaque joueur
-for player in players:
-    print(f"Scènes de {player['name']}:")
-    for scene in player['inventory']['scenes']:
-        print(f"{scene['name']}: {[artist_card[artist]['Label'] for artist in scene['artists']]}")
+
 
 
 # # Dispatch des artistes dans les scènes
@@ -242,10 +254,7 @@ for player in players:
 #     print("Tous les artistes ont été répartis dans les scènes.")
 
 
-
-
-#Comptage des points
-
+# Comptage des points
 
 
 # sheet = wb['Combo']
