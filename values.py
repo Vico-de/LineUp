@@ -1,4 +1,4 @@
-auto = True
+auto = False
 
 ##### Scoring #####
 
