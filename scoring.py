@@ -1,7 +1,7 @@
 import values
 
 
-def full_label(player, scenes, artists):
+def full_label(player, artists, scenes):
     """
     Renvoie les points pour un label complet sur une scène.
     """

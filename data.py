@@ -33,7 +33,7 @@ def scenes():
         values = [cell.value for cell in row]
         if None in values:
             continue
-        scene_name, scene_cost, scene_type, scene_stars = values
+        scene_name, scene_number, scene_cost, scene_type, scene_stars, negative_style = values
         scene_cards[scene_name] = {'Prix': scene_cost, 'Type': scene_type, 'etoiles': scene_stars}
 
     return scene_cards

@@ -1,4 +1,6 @@
-# Scoring
+auto = True
+
+##### Scoring #####
 
 # Cumulative points
 point_fulllabel = 40  # Pour chaque scène qui possède les 4 artistes d'un même label
