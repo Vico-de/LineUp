@@ -6,25 +6,25 @@ wb = openpyxl.load_workbook('LineTest.xlsx')
 # Dico des artistes
 sheet = wb['Artistes']
 
-artist_card = {}
+artist_cards = {}
 for row in sheet.iter_rows(min_row=2):
     values = [cell.value for cell in row]
     if None in values:
         continue
     artist_name, artist_label, artist_cost, artist_stars, artist_scene, artist_style, artist_gender = values
-    artist_card[artist_name] = {'Label': artist_label, 'Prix': artist_cost, 'Etoiles': artist_stars,
-                                'Scene': artist_scene, 'Style': artist_style, 'Genre': artist_gender}
+    artist_cards[artist_name] = {'Label': artist_label, 'Prix': artist_cost, 'Etoiles': artist_stars,
+                                 'Scene': artist_scene, 'Style': artist_style, 'Genre': artist_gender}
 
 sheet = wb['Scenes']
 
 # Dico des scènes
-scene_card = {}
+scene_cards = {}
 for row in sheet.iter_rows(min_row=2):
     values = [cell.value for cell in row]
     if None in values:
         continue
     scene_name, scene_cost, scene_type, scene_stars = values
-    scene_card[scene_name] = {'Prix': scene_cost, 'Type': scene_type, 'Etoiles': scene_stars}
+    scene_cards[scene_name] = {'Prix': scene_cost, 'Type': scene_type, 'Etoiles': scene_stars}
 
 # Définition du nombre de joueurs, de leur budget et de leur dictionnaire
 num_players = int(input("Entrez le nombre de joueurs : "))
@@ -35,8 +35,8 @@ for i in range(num_players):
     players.append(player_dict)
 
 ## CODE TEMPORAIRE POUR TEST PLUS RAPIDEMENT
-artist_card_stack = list(artist_card.keys())
-scene_card_stack = list(scene_card.keys())
+artist_card_stack = list(artist_cards.keys())
+scene_card_stack = list(scene_cards.keys())
 
 # Mélanger les cartes artistes et les répartir entre les joueurs
 random.shuffle(artist_card_stack)
@@ -49,7 +49,6 @@ random.shuffle(scene_card_stack)
 for i in range(len(scene_card_stack)):
     player = players[i % num_players]
     player['inventory']['scenes'].append(scene_card_stack[i])
-
 
 # # Afficher les decks de chaque joueur
 # for player in players:
@@ -86,9 +85,8 @@ def assign_artists_to_scenes(players, scenes):
     # On affiche l'inventaire mis à jour de chaque joueur
     display_inventory(players, scenes)
 
-assign_artists_to_scenes(player_list, artist_card, scene_card)
 
-
+assign_artists_to_scenes(players, scene_cards)
 
 # ---------------------------------------------------------------------
 # # Liste des cartes scènes disponibles
