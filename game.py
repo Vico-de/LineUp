@@ -174,3 +174,4 @@ def announce_winner(players, scenes, artists):
 
         print(f"\t{player['name']}: {player['score']}")
 
+
