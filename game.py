@@ -1,3 +1,4 @@
+import auction
 import data
 import display
 import scoring
@@ -34,7 +35,7 @@ def scene_choice(players, scenes):
     """
     Répartit les scenes entre les joueurs.
     """
-    if values.auto:
+    if not values.auto:
         # Liste des noms des scènes aléatoires
         scene_card_stack = data.random_list(scenes)
 
@@ -60,28 +61,34 @@ def scene_choice(players, scenes):
                 for scene in scene_card_stack:
                     print(f"\t{display.format_scene(scene, scenes)}")
 
-                choice = input("Entrez le nom de la carte pour l'acheter ou 'passe' pour passer votre tour : ")
+                while True:
+                    choice = input("Entrez le nom de la carte pour l'acheter ou \"passer\" pour passer votre tour : ")
 
-                while choice != "passe" and choice not in scene_card_stack:
-                    choice = input("Entrez le nom de la carte pour l'acheter ou 'passe' pour passer votre tour : ")
-
-                if choice == "passe":
-                    skip.append(player['name'])
-                    continue
-                else:
-                    card_cost = scenes[choice]['cost']
-
-                    # Vérification si le joueur a suffisamment d'argent pour acheter la carte
-                    if player['budget'] >= card_cost:
-                        player['budget'] -= card_cost  # Déduction du coût de la carte du budget du joueur
-                        player['inventory']['scenes'].append(
-                            choice)  # Ajout de la carte achetée dans le dictionnaire du joueur
-                        scene_card_stack.remove(
-                            choice)  # Retrait de la carte achetée de la liste des cartes disponibles
-                        print(f"{player['name']} a acheté la carte {choice} pour {card_cost} écocups.")
-                        print(f"Il te reste {player['budget']} écocups !")
+                    if choice not in values.PASSE and choice not in scene_card_stack:
+                        print("\tSaisie invalide, veuillez réessayer.")
+                    elif choice in values.PASSE:
+                        if len(player['inventory']['scenes']) > 0:
+                            skip.append(player['name'])
+                            break
+                        else:
+                            print("\tVous devez acheter au moins une scène.")
+                    elif player['budget'] < scenes[choice]['cost']:
+                        print("\tPas assez d'écocups, veuillez réessayer.")
                     else:
-                        print(f"{player['name']}, vous n'avez pas assez d'argent pour acheter cette carte.")
+                        break
+
+                if player['name'] in skip:
+                    continue
+
+                # Déduction du coût de la carte du budget du joueur
+                player['budget'] -= scenes[choice]['cost']
+                # Ajout de la carte achetée dans le dictionnaire du joueur
+                player['inventory']['scenes'].append(choice)
+
+                # Retrait de la carte achetée de la liste des cartes disponibles
+                scene_card_stack.remove(choice)
+                print(f"\n\t{player['name']} a acheté la carte {choice} pour {scenes[choice]['cost']} écocups.")
+                print(f"\tIl te reste {player['budget']} écocups !")
 
             # Fin de la boucle de choix
             if len(skip) == len(players):
@@ -101,17 +108,13 @@ def artist_auction(players, artists):
 
     artist_card_stack = data.random_list(artists)
 
-    if values.auto:
+    if not values.auto:
         # Répartir entre les joueurs
         for i in range(len(artist_card_stack)):
             player = players[i % len(players)]
             player['inventory']['artists'].append(artist_card_stack[i])
     else:
-        while len(artist_card_stack) > 0:
-            artist_name = artist_card_stack.pop()
-            print("\nLa carte retournée est :", artist_name)
-            artist_label, _, artist_stars, artist_style, artist_gender = artists[artist_name]
-            print("Le coût de cette carte est :", artists[artist_name]["cost"])
+        auction.start_auction(players, artists)
 
     display.display_artists(players)
 
@@ -129,15 +132,33 @@ def dispatch_artists(players, scenes):
                 # On récupère le dictionnaire de la scène
                 scene = scenes[scene_name]
                 # On ajoute l'artiste à la liste des artistes de la scène
-                if 'artists' not in scene:
-                    scene['artists'] = []
-                if artist_name not in scene['artists']:
-                    scene['artists'].append(artist_name)
+                scene.setdefault('artists', []).append(artist_name)
     else:
-        pass
+        # Dispatch des artistes dans les scènes
+        for player in players:
+            inventory = player['inventory']
+            print(f"\n{player['name']}, voici les scènes disponibles dans votre deck :")
+            for scene in inventory['scenes']:
+                print(f"\t{scene}")
+            while inventory['artists']:
+                print(f"Voici les artistes disponibles dans votre deck : {inventory['artists']}.")
+                artist = inventory['artists'][0]
+                while True:
+                    scene_choice = input(f"Dans quelle scène voulez-vous placer {artist} ? ")
+                    if scene_choice in inventory['scenes']:
+                        scene = scenes[scene_choice]
+                        # Ajouter l'artiste à la scène
+                        scene.setdefault('artists', []).append(artist)
+                        # Retirer l'artiste du deck du joueur
+                        inventory['artists'].remove(artist)
+                        break
+                    else:
+                        print("\tScène invalide, veuillez choisir une scène présente dans votre deck.")
+            print("\nTous les artistes ont été répartis dans vos scènes.")
 
     # On affiche l'inventaire mis à jour de chaque joueur
     display.display_inventory(players, scenes)
+
 
 
 def announce_winner(players, scenes, artists):

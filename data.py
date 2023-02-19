@@ -2,7 +2,7 @@ import random
 
 import openpyxl
 
-wb = openpyxl.load_workbook('LineUpXLS.xlsx')
+wb = openpyxl.load_workbook('LineTest.xlsx')
 
 
 def artists():
@@ -17,8 +17,14 @@ def artists():
         if None in values:
             continue
         artist_name, artist_label, artist_cost, artist_stars, artist_scene, artist_style, artist_gender = values
-        artist_cards[artist_name] = {'label': artist_label, 'cost': artist_cost, 'stars': artist_stars,
-                                     'scene': artist_scene, 'style': artist_style, 'genre': artist_gender}
+        artist_cards[artist_name] = {
+            'label': artist_label,
+            'cost': artist_cost,
+            'stars': artist_stars,
+            'scene': artist_scene,
+            'style': artist_style,
+            'genre': artist_gender
+        }
 
     return artist_cards
 
@@ -39,6 +45,7 @@ def scenes():
         scene_cards[scene_name] = {'cost': scene_cost, 'type': scene_type, 'stars': scene_stars}
 
     return scene_cards
+
 
 def random_list(dictionary):
     stack = list(dictionary.keys())

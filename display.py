@@ -33,4 +33,14 @@ def format_type(t):
 def format_scene(scene_name, scenes):
     scene = scenes[scene_name]
     type = format_type(scene['type'])
-    return f"{scene['stars']}★\t {scene_name}{' ' * (21 - len(scene_name))} {type}{' ' * (20 - len(type))}{scene['cost']}"
+    return f"{scene['stars']}★\t {scene_name}" \
+           f"{' ' * (21 - len(scene_name))} {type}" \
+           f"{' ' * (20 - len(type))}{scene['cost']}"
+
+
+def format_artist(artist_name, artists):
+    artist = artists[artist_name]
+    return f"{artist['stars']}★\t {artist_name}" \
+           f"{' ' * (22 - len(artist_name))}{artist['label']}" \
+           f"{' ' * (19 - len(artist['label']))}{artist['style']}" \
+           f"{' ' * (13 - len(artist['label']))}(♥ {artist['scene']})"
