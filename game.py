@@ -79,7 +79,7 @@ def scene_choice(players, scenes):
                         scene_card_stack.remove(
                             choice)  # Retrait de la carte achetée de la liste des cartes disponibles
                         print(f"{player['name']} a acheté la carte {choice} pour {card_cost} écocups.")
-                        print(f"Il te reste {player['budget']} écocup !")
+                        print(f"Il te reste {player['budget']} écocups !")
                     else:
                         print(f"{player['name']}, vous n'avez pas assez d'argent pour acheter cette carte.")
 
