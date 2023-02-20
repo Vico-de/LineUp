@@ -89,6 +89,4 @@ def correctartist(player, artists, scenes):
                 # Affichage d'un message de réussite
                 print(f"{player['name']} a obtenu {values.point_correctartist} points pour avoir correctement placé {scenes['artist']}.")
 
-
-
     return score
