@@ -81,13 +81,14 @@ def correctartist(player, artists, scenes):
             continue
         artists_in_scenes = [artists[artist] for artist in scene["artists"]]
         artists_correct_scenes = [artist['scene'] for artist in artists_in_scenes]
+
+        # Vérification si l'artiste correspond à la scène
         for correct in artists_correct_scenes:
             if correct == scene_artists:
                 score += values.point_correctartist
                 # Affichage d'un message de réussite
                 print(f"{player['name']} a obtenu {values.point_correctartist} points pour avoir correctement placé {scenes['artist']}.")
 
-    #Vérification si l'artiste correspond à la scène
 
 
     return score
