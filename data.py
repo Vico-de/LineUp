@@ -2,7 +2,7 @@ import random
 
 import openpyxl
 
-wb = openpyxl.load_workbook('LineTest.xlsx')
+wb = openpyxl.load_workbook('LineUpXLS.xlsx')
 
 
 def artists():
@@ -42,7 +42,8 @@ def scenes():
         if None in values:
             continue
         scene_name, scene_number, scene_cost, scene_type, scene_stars, negative_style = values
-        scene_cards[scene_name] = {'cost': scene_cost, 'type': scene_type, 'stars': scene_stars}
+        scene_cards[scene_name] = {'scene': scene_number, 'cost': scene_cost, 'type': scene_type,
+                                   'stars': scene_stars, "style inadapté": negative_style}
 
     return scene_cards
 

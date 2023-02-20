@@ -35,7 +35,7 @@ def scene_choice(players, scenes):
     """
     Répartit les scenes entre les joueurs.
     """
-    if not values.auto:
+    if values.auto:
         # Liste des noms des scènes aléatoires
         scene_card_stack = data.random_list(scenes)
 
@@ -108,7 +108,7 @@ def artist_auction(players, artists):
 
     artist_card_stack = data.random_list(artists)
 
-    if not values.auto:
+    if values.auto:
         # Répartir entre les joueurs
         for i in range(len(artist_card_stack)):
             player = players[i % len(players)]
@@ -168,9 +168,14 @@ def announce_winner(players, scenes, artists):
     print("\nScores:")
     for player in players:
         player["score"] += scoring.full_label(player, scenes, artists)
-        # player["score"] += scoring.condition1(player, scene_cards, artist_cards)
-        # player["score"] += scoring.condition2(player, scene_cards, artist_cards)
-        # player["score"] += scoring.condition3(player, scene_cards, artist_cards)
+        player["score"] += scoring.gender_equality(player, scenes, artists)
+        player["score"] += scoring.correctartist(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+
 
         print(f"\t{player['name']}: {player['score']}")
 

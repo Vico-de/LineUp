@@ -29,6 +29,65 @@ def full_label(player, artists, scenes):
                 score += values.point_fulllabel
 
                 # Affichage d'un message de réussite
-                print(f"{player['name']} a obtenu 40 points pour la scène {scene_name} avec le label {label}.")
+                print(f"{player['name']} a obtenu {values.point_fulllabel} points pour la scène {scene_name} avec le label {label}.")
+
+    return score
+
+def gender_equality(player, artists, scenes):
+    """
+    Renvoie 20 points si il y a au moins 3 femmes et 3 hommes dans les artistes d'un joueur
+    """
+    score = 0
+    artists_man = 0
+    artists_woman = 0
+    # Parcours des scènes de l'inventaire du joueur
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        if "artists" not in scene:
+            continue
+        scene_artists = [artists[artist] for artist in scene["artists"]]
+        scene_gender = [artist['genre'] for artist in scene_artists]
+
+        #Vérification qu'il y a au moins 3 hommes
+
+        for man in scene_gender:
+            if man == 1:
+                artists_man += 1
+
+        for woman in scene_gender:
+            if woman == 0:
+                artists_woman += 1
+
+
+    if artists_man >= 3 and artists_woman >= 3:
+        # Ajout de 40 points au joueur
+        score += values.point_genderegality
+        # Affichage d'un message de réussite
+        print(f"{player['name']} a obtenu {values.point_genderegality} points pour avoir favorisé la diversité des genres.")
+
+
+    return score
+
+def correctartist(player, artists, scenes):
+    """
+    Renvoie 20 points si il y a au moins 3 femmes et 3 hommes dans les artistes d'un joueur
+    """
+    score = 0
+    # Parcours des scènes de l'inventaire du joueur
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        scene_artists = scene["scene"]
+        if "artists" not in scene:
+            continue
+        artists_in_scenes = [artists[artist] for artist in scene["artists"]]
+        artists_correct_scenes = [artist['scene'] for artist in artists_in_scenes]
+        for correct in artists_correct_scenes:
+            if correct == scene_artists:
+                score += values.point_correctartist
+                # Affichage d'un message de réussite
+                print(f"{player['name']} a obtenu {values.point_correctartist} points pour avoir correctement placé {scenes['artist']}.")
+
+    #Vérification si l'artiste correspond à la scène
+
 
     return score
