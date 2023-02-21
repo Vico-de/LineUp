@@ -21,8 +21,8 @@ def artists():
             'label': artist_label,
             'cost': artist_cost,
             'stars': artist_stars,
-            'scene': artist_scene,
-            'style': artist_style,
+            'style': artist_scene,
+            'scene': artist_style,
             'genre': artist_gender
         }
 
