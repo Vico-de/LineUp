@@ -1,4 +1,4 @@
-auto = True
+auto = False
 
 PASSE = ["p", "passe", "passer"]
 ACHAT = ["a", "acheter"]
@@ -9,7 +9,7 @@ ACHAT = ["a", "acheter"]
 point_fulllabel = 40  #OK Pour chaque scène qui possède les 4 artistes d'un même label
 point_starsprofitability = 5  # Pour chaque scène ou le cumul des "stars" des artistes >= "stars" de la scène
 point_3variousstyles = 20  # Pour chaque scène qui possède 3 artistes avec un style différent
-point_correctartist = 10  # Pour chaque scène qui possède l'artiste dont "scene" = "numero scene" de la scène
+point_correctartist = 10  #OK Pour chaque scène qui possède l'artiste dont "scene" = "numero scene" de la scène
 
 # Point appliqué une seule fois pour chaque joueur dans son inventaire
 point_variousscenes = 20  # Si tous les types de scène sont présentes dans le deck d'un joueur (0, 1, 2, 3 et 4 au moins une fois)

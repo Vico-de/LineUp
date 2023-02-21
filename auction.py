@@ -53,7 +53,7 @@ def start_auction(players, artists):
 
             player_budget = player['budget']
             if player_budget < last_bid:
-                print(f"\n{player} ne peut pas acheter {artist_name} car il n'a plus assez d'écocups.")
+                print(f"\n{player['name']} ne peut pas acheter {artist_name} car il n'a plus assez d'écocups.")
                 continue
 
             # Enchères

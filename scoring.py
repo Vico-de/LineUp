@@ -84,3 +84,29 @@ def correctartist(player, artists, scenes):
                 print(f"{player['name']} a obtenu {values.point_correctartist} points pour avoir correctement placé {artist}.")
 
     return score
+
+def genderegalityeverywhere(player, artists, scenes):
+    """
+    Renvoie 20 points pour chaque artiste placé dans la bonne scène
+    """
+    score = 0
+    # Parcours des scènes de l'inventaire du joueur
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        ok = []
+        if "artists" not in scene:
+            continue
+            list_artists = scene["artists"]
+            gender_artist = []
+            ok = []
+            for artist in list_artists:
+                gender_artist.append(artists[artist]['genre'])
+                ok.append(any(i in gender_artist for i in {0,1}))
+
+            # Vérification si l'artiste correspond à la scène
+            if all(ok) is True:
+                score += values.point_genderegalityeverywhere
+                # Affichage d'un message de réussite
+                print(f"{player['name']} a obtenu {values.point_genderegalityeverywhere} points pour avoir diversifié toutes ces scènes.")
+
+    return score
