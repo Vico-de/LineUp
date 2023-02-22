@@ -136,6 +136,32 @@ def stars_profit(player, artists, scenes):
         return score
 
 
+def various_scenes(player, scenes):
+    """
+    Renvoie 40 points si toutes les scènes sont présentes dans le deck d'un joueur
+    """
+    score = 0
+    # Parcours des scènes de l'inventaire du joueur
+    list_type = []
+    type = []
+    for i in scenes:
+        type.append(scenes[i]['type'])
+    list_styles = list(set(type))
+
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        scene_type = scene["type"]
+        list_type.append(scene_type)
+
+
+    # Vérification si l'artiste correspond à la scène
+    if all(i in list_type for i in list_styles) is True:
+        score += values.point_variousscenes
+        # Affichage d'un message de réussite
+        print(f"{player['name']} a obtenu {values.point_variousscenes} points pour avoir chaque style de scènes possible.")
+
+    return score
+
 
 
 
