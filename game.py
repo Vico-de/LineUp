@@ -171,7 +171,7 @@ def announce_winner(players, scenes, artists):
         player["score"] += scoring.gender_equality(player, scenes, artists)
         player["score"] += scoring.correctartist(player, scenes, artists)
         player["score"] += scoring.genderegalityeverywhere(player, scenes, artists)
-        # player["score"] += scoring.condition3(player, scenes, artists)
+        player["score"] += scoring.stars_profit(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)

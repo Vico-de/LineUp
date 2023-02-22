@@ -2,7 +2,7 @@ import random
 
 import openpyxl
 
-wb = openpyxl.load_workbook('LineTest.xlsx')
+wb = openpyxl.load_workbook('LineUpXLS.xlsx')
 
 
 def artists():

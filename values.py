@@ -1,4 +1,4 @@
-auto = False
+auto = True
 
 PASSE = ["p", "passe", "passer"]
 ACHAT = ["a", "acheter"]
