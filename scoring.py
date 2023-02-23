@@ -29,7 +29,7 @@ def full_label(player, artists, scenes):
                 score += values.point_fulllabel
 
                 # Affichage d'un message de réussite
-                print(f"{player['name']} a obtenu {values.point_fulllabel} points pour la scène {scene_name} avec le label {label}.")
+                print(f"\t{values.point_fulllabel} pts pour la scène {scene_name} avec le label {label}.")
 
     return score
 
@@ -56,8 +56,10 @@ def gender_equality(player, artists, scenes):
         # Ajout de 40 points au joueur
         score += values.point_genderegality
         # Affichage d'un message de réussite
-        print(f"{player['name']} a obtenu {values.point_genderegality} points pour avoir favorisé la diversité des genres.")
-
+        print(f"\t{values.point_genderegality} pts pour avoir favorisé la diversité des genres.")
+    else:
+        score += values.point_penalities
+        print(f"\tP{values.point_penalities} pts - égalité f/h")
 
 
     return score
@@ -81,13 +83,13 @@ def correctartist(player, artists, scenes):
             if artist_in_scene == scene_artist:
                 score += values.point_correctartist
                 # Affichage d'un message de réussite
-                print(f"{player['name']} a obtenu {values.point_correctartist} points pour avoir correctement placé {artist}.")
+                print(f"\t{values.point_correctartist} pts pour avoir correctement placé {artist}.")
 
     return score
 
 def genderegalityeverywhere(player, artists, scenes):
     """
-    Renvoie 20 points pour chaque artiste placé dans la bonne scène
+    Renvoie 20 points si chaque scène comporte au moins un homme et une femme
     """
     score = 0
     # Parcours des scènes de l'inventaire du joueur
@@ -106,7 +108,7 @@ def genderegalityeverywhere(player, artists, scenes):
             if all(ok) is True:
                 score += values.point_genderegalityeverywhere
                 # Affichage d'un message de réussite
-                print(f"{player['name']} a obtenu {values.point_genderegalityeverywhere} points pour avoir diversifié toutes ces scènes.")
+                print(f"\t{values.point_genderegalityeverywhere} pts pour avoir diversifié toutes ces scènes.")
 
     return score
 
@@ -131,14 +133,16 @@ def stars_profit(player, artists, scenes):
         if scene_profit < artists_stars:
             score += values.point_starsprofitability
             # Affichage d'un message de réussite
-            print(f"{player['name']} a obtenu {values.point_starsprofitability} points pour avoir rentabilisé {scene_name}.")
-
-        return score
+            print(f"\t{values.point_starsprofitability} pts pour avoir rentabilisé {scene_name}.")
+        else:
+            score += values.point_penalities
+            print(f"\t{values.point_penalities} pts - rentabilité")
+    return score
 
 
 def various_scenes(player, scenes):
     """
-    Renvoie 40 points si toutes les scènes sont présentes dans le deck d'un joueur
+    Renvoie 40 points si tous les types de scène sont présents dans le deck d'un joueur
     """
     score = 0
     # Parcours des scènes de l'inventaire du joueur
@@ -158,10 +162,32 @@ def various_scenes(player, scenes):
     if all(i in list_type for i in list_styles) is True:
         score += values.point_variousscenes
         # Affichage d'un message de réussite
-        print(f"{player['name']} a obtenu {values.point_variousscenes} points pour avoir chaque style de scènes possible.")
+        print(f"\t{values.point_variousscenes} pts pour avoir chaque style de scènes possible.")
 
     return score
 
+def wrongstyle(player, artists, scenes):
+    """
+    Retire 10 points pour chaque artiste dont le style est le mauvais de la scène
+    """
+    score = 0
+    # Parcours des scènes de l'inventaire du joueur
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        scene_wrongstyle = scene["wrong style"]
+        if "artists" not in scene:
+            continue
+        list_artists = scene["artists"]
+        for artist in list_artists:
+            artist_style = artists[artist]['style']
+
+        # Vérification si l'artiste correspond à la scène
+            if artist_style == scene_wrongstyle:
+                score += values.point_penalities
+                # Affichage d'un message de réussite
+                print(f"\t{values.point_penalities} pts - {artist}, mauvais style.")
+
+    return score
 
 
 

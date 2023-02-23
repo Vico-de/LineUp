@@ -41,9 +41,9 @@ def scenes():
         values = [cell.value for cell in row]
         if None in values:
             continue
-        scene_name, scene_number, scene_cost, scene_type, scene_stars, negative_style = values
+        scene_name, scene_number, scene_cost, scene_type, scene_stars, wrong_style = values
         scene_cards[scene_name] = {'scene': scene_number, 'cost': scene_cost, 'type': scene_type,
-                                   'stars': scene_stars, "style inadapté": negative_style}
+                                   'stars': scene_stars, "wrong style": wrong_style}
 
     return scene_cards
 

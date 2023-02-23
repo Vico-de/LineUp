@@ -165,18 +165,22 @@ def announce_winner(players, scenes, artists):
     """
     Calcule les scores des joueurs et les affiche.
     """
-    print("\nScores:")
+    print("\n\t\tScores:")
     for player in players:
+        print(f"{player['name']}:")
         player["score"] += scoring.full_label(player, scenes, artists)
         player["score"] += scoring.gender_equality(player, scenes, artists)
         player["score"] += scoring.correctartist(player, scenes, artists)
         player["score"] += scoring.genderegalityeverywhere(player, scenes, artists)
         player["score"] += scoring.stars_profit(player, scenes, artists)
         player["score"] += scoring.various_scenes(player, artists)
+        player["score"] += scoring.wrongstyle(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
+        # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
 
 
-        print(f"\t{player['name']}: {player['score']}")
+        print(f"\t{player['name']}: {player['score']} pts")
 
 
