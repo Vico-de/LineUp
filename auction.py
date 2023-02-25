@@ -80,7 +80,7 @@ def start_auction(players, artists):
                         elif bid % 1000 != 0:
                             print("Votre enchère doit être un multiple de 1000.")
                         else:
-                            last_bid = bid
+                            last_bid = bid #TODO pourquoi ça marche pas ici ?
                             highest_bidder = player
                             print(f"\t{player['name']} propose un montant de {bid} écocups.")
                             break

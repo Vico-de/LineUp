@@ -175,7 +175,7 @@ def announce_winner(players, scenes, artists):
         player["score"] += scoring.stars_profit(player, scenes, artists)
         player["score"] += scoring.various_scenes(player, artists)
         player["score"] += scoring.wrongstyle(player, scenes, artists)
-        # player["score"] += scoring.condition3(player, scenes, artists)
+        player["score"] += scoring.allscenescorrectartist(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)

@@ -59,7 +59,7 @@ def gender_equality(player, artists, scenes):
         print(f"\t{values.point_genderegality} pts pour avoir favorisé la diversité des genres.")
     else:
         score += values.point_penalities
-        print(f"\tP{values.point_penalities} pts - égalité f/h")
+        print(f"\t{values.point_penalities} pts - égalité f/h")
 
 
     return score
@@ -139,7 +139,7 @@ def stars_profit(player, artists, scenes):
             print(f"\t{values.point_penalities} pts - rentabilité")
     return score
 
-
+#TODO check si ça marche ci-dessous
 def various_scenes(player, scenes):
     """
     Renvoie 40 points si tous les types de scène sont présents dans le deck d'un joueur
@@ -189,8 +189,59 @@ def wrongstyle(player, artists, scenes):
 
     return score
 
+def allscenescorrectartist(player, artists, scenes):
+    """
+    Renvoie 40 points si toutes les scènes ont un artiste placé dans la bonne scène
+    """
+    score = 0
+    allscenes = 0
+    # Parcours des scènes de l'inventaire du joueur
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        scene_artist = scene["scene"]
+
+        if "artists" not in scene:
+            continue
+        list_artists = scene["artists"]
+        for artist in list_artists:
+            artist_in_scene = artists[artist]['scene']
+        # Vérification si l'artiste correspond à la scène
+            if artist_in_scene == scene_artist:
+                allscenes += 1
+
+        if allscenes == len(player['inventory']['scenes']):
+            score += values.point_allscenecorrectartist
+            # Affichage d'un message de réussite
+            print(f"\t{values.point_allscenecorrectartist} pts pour avoir placé au moins un bon artiste par scène.")
+
+    return score
+
+# TODO coder ci-dessous
+def various_styles(player, scenes):
+    """
+    Renvoie 40 points si tous les types de scène sont présents dans le deck d'un joueur
+    """
+    score = 0
+    # Parcours des scènes de l'inventaire du joueur
+    list_type = []
+    type = []
+    for i in scenes:
+        type.append(scenes[i]['type'])
+    list_styles = list(set(type))
+
+    for scene_name in player['inventory']['scenes']:
+        scene = scenes[scene_name]
+        scene_type = scene["type"]
+        list_type.append(scene_type)
 
 
+    # Vérification si l'artiste correspond à la scène
+    if all(i in list_type for i in list_styles) is True:
+        score += values.point_variousscenes
+        # Affichage d'un message de réussite
+        print(f"\t{values.point_variousscenes} pts pour avoir chaque style de scènes possible.")
+
+    return score
 
 
 # def nom_fonction(player, artists, scenes):
