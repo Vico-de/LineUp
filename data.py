@@ -23,7 +23,7 @@ def artists():
             'stars': artist_stars,
             'style': artist_scene,
             'scene': artist_style,
-            'genre': artist_gender
+            'genre': artist_gender,
         }
 
     return artist_cards
@@ -46,6 +46,28 @@ def scenes():
                                    'stars': scene_stars, "wrong style": wrong_style}
 
     return scene_cards
+
+
+def events():
+    """
+    Renvoie un dictionnaire avec les cartes événements.
+    """
+    sheet = wb['Events']
+
+    events_cards = {}
+    for row in sheet.iter_rows(min_row=2):
+        values = [cell.value for cell in row]
+        if None in values:
+            continue
+        name, event, effect, fame, style = values
+        events_cards[name] = {
+            'event': event,
+            'effect': effect,
+            'fame': fame,
+            'style': style.split(),
+        }
+
+    return events_cards
 
 
 def random_list(dictionary):

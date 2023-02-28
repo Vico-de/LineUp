@@ -1,9 +1,10 @@
+import random
+
 import auction
 import data
 import display
 import scoring
 import values
-import random
 
 
 def init():
@@ -21,9 +22,11 @@ def init():
             'budget': 1000000,
             'score': 0,
             'ordi': num_ordi > i,
+            'fame': 0,
             'inventory': {
                 'artists': [],
-                'scenes': []
+                'scenes': [],
+                'events': []
             }
         }
         players.append(player_dict)

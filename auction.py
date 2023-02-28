@@ -1,5 +1,6 @@
 import data
 import display
+import events
 import util
 import values
 
@@ -40,6 +41,8 @@ def start_auction(players, artists):
                 highest_bidder = player
                 bought = True
                 auction_in_progress = False
+                print(f"\t{player['name']} obtient {artist_name}.")
+                events.pick_event(highest_bidder, events_cards, players)
                 break
             else:
                 print("\tSaisie invalide, veuillez réessayer.")
@@ -99,6 +102,8 @@ def start_auction(players, artists):
             print(f"{highest_bidder['name']} remporte {artist_name} pour un montant de {last_bid} écocups.")
             # ajout de la carte au dictionnaire de l'inventaire du joueur
             highest_bidder['inventory']['artists'].append(artist_name)
+            # pioche d'une carte événement
+            events.pick_event(highest_bidder)
         else:
             del artists[artist_name]
             print("\n——————————————————————————————————————————————————————————————————————")
