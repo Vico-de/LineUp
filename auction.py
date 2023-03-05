@@ -5,9 +5,9 @@ import util
 import values
 
 
-def start_auction(players, artists):
+def start_auction(players, artists, scenes):
     artist_card_stack = data.random_list(artists)
-
+    events_cards = data.events()
     player_stack = [i for i in range(len(players))]
 
     while len(artist_card_stack) > 0 \
@@ -42,7 +42,9 @@ def start_auction(players, artists):
                 bought = True
                 auction_in_progress = False
                 print(f"\t{player['name']} obtient {artist_name}.")
-                events.pick_event(highest_bidder, events_cards, players)
+                _, card = events.pick_event(highest_bidder, events_cards)
+                print(f"\t{player['name']} reçoit {card}.")
+                events.effect(player, card, players, events_cards, scenes)
                 break
             else:
                 print("\tSaisie invalide, veuillez réessayer.")
@@ -103,7 +105,7 @@ def start_auction(players, artists):
             # ajout de la carte au dictionnaire de l'inventaire du joueur
             highest_bidder['inventory']['artists'].append(artist_name)
             # pioche d'une carte événement
-            events.pick_event(highest_bidder)
+            events.pick_event(highest_bidder, events_cards)
         else:
             del artists[artist_name]
             print("\n——————————————————————————————————————————————————————————————————————")

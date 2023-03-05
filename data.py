@@ -2,7 +2,7 @@ import random
 
 import openpyxl
 
-wb = openpyxl.load_workbook('LineTest.xlsx')
+wb = openpyxl.load_workbook('LineUpXLS.xlsx')
 
 
 def artists():
@@ -57,14 +57,14 @@ def events():
     events_cards = {}
     for row in sheet.iter_rows(min_row=2):
         values = [cell.value for cell in row]
-        if None in values:
+        if values[0] is None:
             continue
-        name, event, effect, fame, style = values
+        name, event, effect, fame, style = values[:5]
         events_cards[name] = {
             'event': event,
             'effect': effect,
             'fame': fame,
-            'style': style.split(),
+            'style': str(style).split(),
         }
 
     return events_cards

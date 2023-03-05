@@ -38,7 +38,7 @@ def scene_choice(players, scenes):
     """
     Répartit les scenes entre les joueurs.
     """
-    if values.auto:
+    if not values.auto:
         # Liste des noms des scènes aléatoires
         scene_card_stack = data.random_list(scenes)
 
@@ -98,7 +98,7 @@ def scene_choice(players, scenes):
                 break
 
 
-def artist_auction(players, artists):
+def artist_auction(players, artists, scenes):
     """
     Répartit les artistes entre les joueurs.
     """
@@ -117,7 +117,7 @@ def artist_auction(players, artists):
             player = players[i % len(players)]
             player['inventory']['artists'].append(artist_card_stack[i])
     else:
-        auction.start_auction(players, artists)
+        auction.start_auction(players, artists, scenes)
 
     display.display_artists(players)
 
