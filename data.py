@@ -66,7 +66,6 @@ def events():
             'fame': fame,
             'style': str(style).split(),
         }
-
     return events_cards
 
 

@@ -1,8 +1,12 @@
+import random
+
 import data
 
 
-# TODO regarder comment gérer/import events_cards
 def pick_event(player, events_cards):
+    if len(events_cards) == 0:
+        return None, None
+
     events_cards_stack = data.random_list(events_cards)
     pick_event_card = events_cards_stack[0]
     player['inventory']['events'].append(pick_event_card)
@@ -10,11 +14,11 @@ def pick_event(player, events_cards):
     return player, pick_event_card
 
 
-def effect(player, pick_event_card, players, events_card, scenes):
+def effect(index, pick_event_card, players, scenes, cards_event_source, artists):
+    player = players[index]
     player_scenes = player['inventory']['scenes']
-    artists = player['inventory']['artists']
-    target = player
-    card = events_card[pick_event_card]
+    player_artists = player['inventory']['artists']
+    card = cards_event_source[pick_event_card]
 
     # Bonus - Le joueur qui tire la carte gagne 10 000 écocups
     if card['effect'] == "+ 10000":
@@ -25,17 +29,17 @@ def effect(player, pick_event_card, players, events_card, scenes):
     # Bonus - Retire 3 étoiles de rentabilité à toutes les scènes "open air" du joueur qui tire cette carte
     elif card['effect'] == "club -5 stars":
         print(card['event'])
-        print(f"\tToutes les boîtes de {target['name']} ont 5 étoiles de moins de rentabilité")
+        print(f"\tToutes les boîtes de {player['name']} ont 5 étoiles de moins de rentabilité")
         for club in player_scenes:
             if scenes[club]['stars'] == 3:
                 scenes[club]['stars'] += -5
             else:
                 continue
 
-    # Bonus - Tous les artistes du joueur qui a tiré la carte, gagnent 1 étoiles
+    # Bonus - Tous les artistes du joueur qui a tiré la carte, gagnent 1 étoile
     elif card['effect'] == "+ 1 star artists":
         print(card['event'])
-        for i in artists: artists[i]['stars'] += -1
+        for i in player_artists: artists[i]['stars'] += 1
 
     # Bonus - Retire 3 étoiles de rentabilité à toutes les scènes "open air" du joueur qui tire cette carte
     elif card['effect'] == "open air - 3 stars":
@@ -61,9 +65,9 @@ def effect(player, pick_event_card, players, events_card, scenes):
     elif card['effect'] == "-20000":
         print(card['event'])
         for p in players: print(f"{p['name']} : {p['budget']}")
-        choose(target)
+        target = players[choose(players)]
         target['budget'] += -20000
-        print(f"{player['name']} perd 20000 écocups")
+        print(f"{target['name']} perd 20000 écocups")
 
     # Malus - Ajoute 5 étoiles de rentabilité à toutes les scènes "open air" du joueur qui tire cette carte
     elif card['effect'] == "open air + 5 stars":
@@ -78,11 +82,16 @@ def effect(player, pick_event_card, players, events_card, scenes):
     # Malus - Retire un artiste random au joueur ciblé
     elif card['effect'] == "-1 artist":
         print(card['event'])
-        choose(target)
-        artists_target = target['inventory']['artists']
-        data.random_list(artists_target)
-        print(f"\n{target['name']} a perdu {artists_target[0]}")
-        artists_target.pop(0)
+        target = players[choose(players)]
+        n_artistes = len(target['inventory']['artists'])
+        if n_artistes == 0:
+            print(f"\n{target['name']} n'a pas d'artistes.")
+        else:
+            random_number = random.randrange(n_artistes)
+            artist_pop = target['inventory']['artists'][random_number]
+            print(f"\n{target['name']} a perdu {artist_pop}")
+            target['inventory']['artists'].pop(random_number)
+
 
     # Malus - Ajoute 3 étoiles de rentabilité à toutes les scènes "boites"
     elif card['effect'] == "club + 3 stars":
@@ -97,15 +106,16 @@ def effect(player, pick_event_card, players, events_card, scenes):
     # Malus - Retire une étoile à tous les artistes du joueur ciblé
     elif card['effect'] == "-1 star artists":
         print(card['event'])
-        choose(target)
-        artists_target = target['inventory']['artists']
-        for i in artists_target: artists_target[i]['stars'] += -1
+        target = players[choose(players)]
+        target_artists = target['inventory']['artists']
+        for i in target_artists:
+            artists[i]['stars'] += 1
 
     # Malus - Ajoute 3 étoiles de rentabilité à toutes les scènes "soirées" au joueur qui tire la carte
     elif card['effect'] == "event + 3 stars":
         print(card['event'])
-        choose(players)
-        print(f"\nToutes les soirées de {choose['name']} ont 3 étoiles de plus de rentabilité")
+        target = players[choose(players)]
+        print(f"\nToutes les soirées de {target['name']} ont 3 étoiles de plus de rentabilité")
         for event in scenes:
             if scenes[event] == 0:
                 scenes[event]['stars'] += 3
@@ -114,12 +124,19 @@ def effect(player, pick_event_card, players, events_card, scenes):
 
     player['fame'] += card['fame']
 
-    return player
+    return
 
 
-def choose(players):
-    target = ""
-    print(players)
-    while target not in players['name']:
-        target = input("\nChoisissez le joueur auquel vous voulez attribuer le malus : ")
-    return target
+def choose(players: list) -> int:
+    target: int = 0
+
+    for i, player in enumerate(players):
+        print(f"{str(i + 1)} - {player['name']}")
+
+    while target < 1 or target > len(players):
+        try:
+            target = int(input("\nChoisissez le joueur auquel vous voulez attribuer le malus : "))
+        except ValueError:
+            print("Vous devez entrer un nombre entier.")
+
+    return target - 1

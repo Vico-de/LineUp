@@ -8,6 +8,7 @@ import values
 def start_auction(players, artists, scenes):
     artist_card_stack = data.random_list(artists)
     events_cards = data.events()
+    cards_event_source = events_cards.copy()
     player_stack = [i for i in range(len(players))]
 
     while len(artist_card_stack) > 0 \
@@ -39,12 +40,15 @@ def start_auction(players, artists, scenes):
                 break
             elif bid in values.ACHAT:
                 highest_bidder = player
+                index = players.index(player)
                 bought = True
                 auction_in_progress = False
                 print(f"\t{player['name']} obtient {artist_name}.")
-                _, card = events.pick_event(highest_bidder, events_cards)
-                print(f"\t{player['name']} reçoit {card}.")
-                events.effect(player, card, players, events_cards, scenes)
+                _, pick_event_card = events.pick_event(highest_bidder, events_cards)
+                if pick_event_card is None:
+                    break
+                print(f"\t{player['name']} reçoit {pick_event_card}.")
+                events.effect(index, pick_event_card, players, scenes, cards_event_source, artists)
                 break
             else:
                 print("\tSaisie invalide, veuillez réessayer.")
