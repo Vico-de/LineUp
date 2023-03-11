@@ -38,7 +38,7 @@ def scene_choice(players, scenes):
     """
     Répartit les scenes entre les joueurs.
     """
-    if not values.auto:
+    if values.auto:
         # Liste des noms des scènes aléatoires
         scene_card_stack = data.random_list(scenes)
 
@@ -103,8 +103,8 @@ def artist_auction(players, artists, scenes):
     Répartit les artistes entre les joueurs.
     """
 
-    # Retirer 20% des cartes aléatoirement
-    num_to_remove = round(0.2 * len(artists.keys()))
+    # Retirer des cartes aléatoirement
+    num_to_remove = ((values.max_players - len(players) + 1) * 2)
     removed_random = random.sample(artists.keys(), num_to_remove)
     for artist in removed_random:
         del artists[artist]
@@ -176,7 +176,7 @@ def announce_winner(players, scenes, artists):
         player["score"] += scoring.correctartist(player, scenes, artists)
         player["score"] += scoring.genderegalityeverywhere(player, scenes, artists)
         player["score"] += scoring.stars_profit(player, scenes, artists)
-        player["score"] += scoring.various_scenes(player, artists)
+        player["score"] += scoring.various_scenes(player, scenes)
         player["score"] += scoring.wrongstyle(player, scenes, artists)
         player["score"] += scoring.allscenescorrectartist(player, scenes, artists)
         player["score"] += scoring.stylesdiversity(player, scenes, artists)

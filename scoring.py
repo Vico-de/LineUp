@@ -92,6 +92,7 @@ def genderegalityeverywhere(player, scenes, artists):
     Renvoie 20 points si chaque scène comporte au moins un homme et une femme
     """
     score = 0
+    ok = []
     # Parcours des scènes de l'inventaire du joueur
     for scene_name in player['inventory']['scenes']:
         scene = scenes[scene_name]
@@ -99,16 +100,19 @@ def genderegalityeverywhere(player, scenes, artists):
             continue
         list_artists = scene["artists"]
         gender_artist = []
-        ok = []
+
         for artist in list_artists:
             gender_artist.append(artists[artist]['genre'])
-            ok.append(any(i in gender_artist for i in {0,1}))
+        for x in gender_artist:
+            if x in [0, 1]:
+                ok.append(True)
+        ok.append(False)
 
-        # Vérification si l'artiste correspond à la scène
-        if all(ok) is True:
-            score += values.point_genderegalityeverywhere
-            # Affichage d'un message de réussite
-            print(f"\t{values.point_genderegalityeverywhere} pts pour avoir diversifié toutes ces scènes.")
+    # Vérification si l'artiste correspond à la scène
+    if all(ok) is True:
+        score += values.point_genderegalityeverywhere
+        # Affichage d'un message de réussite
+        print(f"\t{values.point_genderegalityeverywhere} pts pour avoir diversifié toutes ces scènes.")
 
     return score
 
