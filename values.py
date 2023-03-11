@@ -14,7 +14,6 @@ point_stylesdiversity = 40  # Pour chaque scène qui possède 3 artistes avec un
 point_correctartist = 10  # OK Pour chaque scène qui possède l'artiste dont "scene" = "numero scene" de la scène
 point_fullstyle = 30  # Pour chaque scène avec 3 artistes du même style
 
-
 # Point appliqué une seule fois pour chaque joueur dans son inventaire
 point_variousscenes = 40  #OK Si tous les types de scène sont présentes dans le deck d'un joueur (0, 1, 2, 3 et 4 au moins une fois)
 point_genderegality = 20  # OK Si dans tous les artistes d'un joueur, au moins 5 artistes avec "genre" = 0 et 5 artistes avec "genre" = 1
