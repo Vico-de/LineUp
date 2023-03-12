@@ -235,6 +235,23 @@ def stylesdiversity(player, scenes, artists):
     return score
 
 
+# TODO fix bug fame scoring
+def fame_score(players):
+    """
+    Renvoie 40 points au joueur qui a le plus de fame (total des points des cartes évènements)
+    """
+    fame = {}
+    score = 0
+    for player in players:
+        fame[player['name']] = player['fame']
+    player_fame = max(fame, key=fame.get)
+    if len(player_fame) > 1:
+        None
+    winner = next((win for win in players if win['name'] == player_fame), None)
+    score += values.point_fame
+    print(f"Le bonus de réputation est attribué à {winner['name']}")
+
+    return score, winner
 
 # def nom_fonction(player, scenes, artists):
 #     """

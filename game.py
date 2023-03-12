@@ -17,7 +17,7 @@ def init():
     players = []
 
     for i in range(num_players + num_ordi):
-        player_dict = {
+        player_list = {
             'name': f"Joueur {i + 1}",
             'budget': 1000000,
             'score': 0,
@@ -29,7 +29,7 @@ def init():
                 'events': []
             }
         }
-        players.append(player_dict)
+        players.append(player_list)
 
     return players
 
@@ -98,6 +98,7 @@ def scene_choice(players, scenes):
                 break
 
 
+# TODO add repartition of events (or implement IA instead)
 def artist_auction(players, artists, scenes):
     """
     Répartit les artistes entre les joueurs.
@@ -111,7 +112,7 @@ def artist_auction(players, artists, scenes):
 
     artist_card_stack = data.random_list(artists)
 
-    if values.auto:
+    if not values.auto:
         # Répartir entre les joueurs
         for i in range(len(artist_card_stack)):
             player = players[i % len(players)]
@@ -163,7 +164,7 @@ def dispatch_artists(players, scenes):
     display.display_inventory(players, scenes)
 
 
-
+#TODO Check if all scoring work
 def announce_winner(players, scenes, artists):
     """
     Calcule les scores des joueurs et les affiche.
@@ -183,7 +184,8 @@ def announce_winner(players, scenes, artists):
         # player["score"] += scoring.condition3(player, scenes, artists)
         # player["score"] += scoring.condition3(player, scenes, artists)
 
-
         print(f"\t{player['name']}: {player['score']} pts")
 
-
+    # TODO fix bug score for 'fame'
+    _, winner = scoring.fame_score(players)
+    winner["score"] += scoring.fame_score(players), _

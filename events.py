@@ -9,11 +9,14 @@ def pick_event(player, events_cards):
 
     events_cards_stack = data.random_list(events_cards)
     pick_event_card = events_cards_stack[0]
+    fame = events_cards[pick_event_card]['fame']
     player['inventory']['events'].append(pick_event_card)
+    player['fame'] += fame
     del events_cards[pick_event_card]
     return player, pick_event_card
 
 
+# TODO Check if all effect really work
 def effect(index, pick_event_card, players, scenes, cards_event_source, artists):
     player = players[index]
     player_scenes = player['inventory']['scenes']
