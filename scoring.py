@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 import values
 
 
@@ -235,23 +237,29 @@ def stylesdiversity(player, scenes, artists):
     return score
 
 
-# TODO fix bug fame scoring
+# TODO fix bug fame scoring + add score for second and score for third if in
 def fame_score(players):
     """
-    Renvoie 40 points au joueur qui a le plus de fame (total des points des cartes évènements)
+    Renvoie 40 points au joueur qui a le plus de fame (total des points des cartes évènements), 20 au second, 10 au troisième
     """
     fame = {}
-    score = 0
     for player in players:
         fame[player['name']] = player['fame']
     player_fame = max(fame, key=fame.get)
     if len(player_fame) > 1:
         None
-    winner = next((win for win in players if win['name'] == player_fame), None)
-    score += values.point_fame
-    print(f"Le bonus de réputation est attribué à {winner['name']}")
+    list_sort = sorted(players, key=itemgetter('fame'))
+    if len(players) > 2:
+        list_sort[2]['score'] += values.point_fame_third
+        print(f"{list_sort[2]['name']} est 3ème en réputation et gagne {values.point_fame_third} pts")
+    if len(players) > 1:
+        list_sort[1]['score'] += values.point_fame_second
+        print(f"{list_sort[1]['name']} est 2ème en réputation et gagne {values.point_fame_second} pts")
 
-    return score, winner
+    list_sort[0]['score'] += values.point_fame_first
+    print(f"{list_sort[0]['name']} est 1er en réputation et gagne {values.point_fame_first} pts")
+
+    return
 
 # def nom_fonction(player, scenes, artists):
 #     """

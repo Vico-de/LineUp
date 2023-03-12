@@ -170,8 +170,9 @@ def announce_winner(players, scenes, artists):
     Calcule les scores des joueurs et les affiche.
     """
     print("\n\t\tScores:")
+    scoring.fame_score(players)
     for player in players:
-        print(f"{player['name']}:")
+        print(f"\n{player['name']}:")
         player["score"] += scoring.full_label(player, scenes, artists)
         player["score"] += scoring.gender_equality(player, scenes, artists)
         player["score"] += scoring.correctartist(player, scenes, artists)
@@ -185,7 +186,3 @@ def announce_winner(players, scenes, artists):
         # player["score"] += scoring.condition3(player, scenes, artists)
 
         print(f"\t{player['name']}: {player['score']} pts")
-
-    # TODO fix bug score for 'fame'
-    _, winner = scoring.fame_score(players)
-    winner["score"] += scoring.fame_score(players), _

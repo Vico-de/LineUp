@@ -21,7 +21,9 @@ point_genderegalityeverywhere = 30  # OK Si toutes les scènes comportent au moi
 point_variousstyles = 10  # Si dans tous les artistes il y a au moins tous les "styles" présents une fois
 point_allscenecorrectartist = 40  # OK Si toutes les scènes du joueur comportent chacune au moins un artiste avec "scene" = "numero de scène"
 
-point_fame = 40
+point_fame_first = 40
+point_fame_second = 20
+point_fame_third = 10
 
 # Pénalités
 point_penalities = -10  # OK Pénalité de points appliquée si tous les artistes d'un joueur est du même "genre",
