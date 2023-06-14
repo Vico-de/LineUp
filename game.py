@@ -36,7 +36,7 @@ def init():
 
 def scene_choice(players, scenes):
     """
-    Répartit les scenes entre les joueurs.
+    Répartit les scenes entre les joueurs OU Achat des scènes par les joueurs.
     """
     if values.auto:
         # Liste des noms des scènes aléatoires

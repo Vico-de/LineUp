@@ -145,7 +145,6 @@ def stars_profit(player, scenes, artists):
             print(f"\t{values.point_penalities} pts - rentabilité")
     return score
 
-#TODO check si ça marche ci-dessous
 def various_scenes(player, scenes):
     """
     Renvoie 40 points si tous les types de scène sont présents dans le deck d'un joueur
@@ -222,7 +221,7 @@ def allscenescorrectartist(player, scenes, artists):
 
     return score
 
-# TODO coder ci-dessous
+
 def stylesdiversity(player, scenes, artists):
     """
     Renvoie 40 points si 3 styles différents sont présents dans chaque scène
